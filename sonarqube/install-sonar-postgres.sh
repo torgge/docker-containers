@@ -1,7 +1,7 @@
 #!/bin/bash
 
-docker rm -f sonarqube
-docker rm -f postgres
+#docker rm -f sonarqube
+#docker rm -f postgres
 
 docker network create postgres-network
 
@@ -10,9 +10,13 @@ docker run --name postgres \
 -e POSTGRES_USER=postgres \
 -e POSTGRES_PASSWORD=dY2bnChgkNnZAiS \
 -d \
--v /home/gbonespirito/Docker/postgres:/var/lib/postgresql/data \
+-v $HOME/docker/postgres:/var/lib/postgresql/data \
 -p 5432:5432 \
 --net postgres-network postgres
+
+
+#evitar erro ao iniciar sonarqube: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+sudo sysctl -w vm.max_map_count=262144
 
 docker run --name sonarqube \
 -p 9000:9000 \
